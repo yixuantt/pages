@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinEmbed - Financial Embeddings API</title>
+    <style>
+        :root {
+            --openai-blue: #10a37f;
+            --openai-dark: #202123;
+            --openai-gray: #ececf1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: white;
+            color: var(--openai-dark);
+            line-height: 1.5;
+        }
+
+        .hero {
+            background: linear-gradient(160deg, #f5f7fe 0%, #f9fafb 100%);
+            padding: 8rem 2rem 6rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            margin-bottom: 2rem;
+            background: linear-gradient(15deg, #1a2b6d, var(--openai-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .api-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.03),
+                        0 4px 6px -4px rgba(0,0,0,0.03);
+            border: 1px solid #eee;
+            margin: 3rem 0;
+        }
+
+        .code-block {
+            background: var(--openai-dark);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Menlo', monospace;
+            font-size: 0.9rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 4rem 0;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            border-radius: 12px;
+            background: white;
+            border: 1px solid #eee;
+            transition: transform 0.2s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--openai-blue);
+            mask-size: contain;
+            margin-bottom: 1.5rem;
+        }
+
+        .financial-data { mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7L12 12L22 7L12 2Z M17 8.5L12 11L7 8.5 M12 12V21 M7 9.5L2 12L12 17L22 12L17 9.5" stroke="white" stroke-width="2"/></svg>'); }
+        .market-trend { mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 17L9 11L13 15L21 7M21 7H15.5M21 7V12.5" stroke="white" stroke-width="2"/></svg>'); }
+        .compliance { mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 12L11 14L15 10M12 3V5M5 20H19C17.595 18.23 17 16.19 17 14C17 10 19 7 14 7C11.818 7 10 5 7 5C4.952 5 4.079 6.078 3 7M5 20C6.471 18.779 8.414 18 12 18C15.414 18 17.829 18.754 19 20M5 20H3" stroke="white" stroke-width="2"/></svg>'); }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="container">
+            <h1>Financial Embeddings API</h1>
+            <p style="font-size: 1.25rem; color: #6e6e80; max-width: 800px;">
+                Specialized embeddings for financial NLP, trained on SEC filings, 
+                earnings calls, and market reports with domain-specific fine-tuning.
+            </p>
+
+            <div class="api-section">
+                <div class="code-block">
+                    <span style="color: #8a8a9e;">// OpenAI-style API endpoint</span><br>
+                    POST https://api.finembed.com/v1/embeddings<br>
+                    {<br>
+                    &nbsp;&nbsp;"input": "FOMC minutes indicate 75bps rate hike...",<br>
+                    &nbsp;&nbsp;"model": "Fin-e5"<br>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon financial-data"></div>
+                <h3 style="margin-bottom: 1rem; color: var(--openai-dark);">Financial Document Understanding</h3>
+                <p style="color: #6e6e80;">
+                    Optimized for 10-K/Q filings, earnings transcripts, and IBES estimates 
+                    with financial entity recognition
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon market-trend"></div>
+                <h3 style="margin-bottom: 1rem; color: var(--openai-dark);">Market Sentiment Analysis</h3>
+                <p style="color: #6e6e80;">
+                    Encodes subtle sentiment shifts in analyst reports and 
+                    real-time market commentaries
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon compliance"></div>
+                <h3 style="margin-bottom: 1rem; color: var(--openai-dark);">Regulatory Compliance</h3>
+                <p style="color: #6e6e80;">
+                    Maintains compliance context for FINRA/SEC regulated content 
+                    and insider trading patterns
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
