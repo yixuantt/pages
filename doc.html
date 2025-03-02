@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fin-E5 Embedding API Documentation</title>
+    <style>
+        :root {
+            --primary: #10a37f;
+            --dark: #202123;
+            --light-bg: #f7f7f8;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1 {
+            color: var(--dark);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+        }
+
+        pre {
+            background: var(--dark);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        code {
+            font-family: 'Menlo', monospace;
+        }
+
+        .code-header {
+            color: var(--primary);
+            margin-bottom: -0.5rem;
+        }
+
+        .response-sample {
+            background: var(--light-bg);
+            padding: 1rem;
+            border-left: 3px solid var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <h1>Fin-E5 Embedding API</h1>
+
+    <!-- License -->
+    <div style="color: #666; font-size: 0.9em;">
+        SPDX-License-Identifier: Apache-2.0
+    </div>
+
+    <!-- cURL Example -->
+    <h2>API Request (cURL)</h2>
+    <div class="code-header">Example:</div>
+    <pre><code>curl https://api.finembed.com/v1/embeddings \
+  -H "Authorization: Bearer $FIN_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "text-embedding-fin-e5",
+    "input": "FED announces 0.25% rate cut amid inflation easing",
+    "encoding_format": "float"
+  }'</code></pre>
+
+    <!-- Python Example -->
+    <h2>Python Client</h2>
+    <div class="code-header">Using OpenAI SDK:</div>
+    <pre><code>from openai import OpenAI
+
+# Configure for Fin-E5 endpoint
+client = OpenAI(
+    base_url="https://api.finembed.com/v1",
+    api_key="your_fin_api_key"
+)
+
+# Generate embeddings
+response = client.embeddings.create(
+    model="Fin-e5",
+    input=["AAPL Q4 revenue \$119.6B", "TSLA announces new battery plant"],
+    encoding_format="float"
+)
+
+# Process response
+for idx, embed in enumerate(response.data):
+    print(f"Embedding {idx+1}: {len(embed.embedding)} dimensions")</code></pre>
+
+    <!-- Response Sample -->
+    <h2>API Response</h2>
+    <div class="response-sample">
+        <pre><code>{
+  "object": "list",
+  "data": [
+    {
+      "object": "embedding",
+      "index": 0,
+      "embedding": [0.021, -0.047, ..., 0.003], // 1536 dimensions
+    }
+  ],
+  "model": "text-embedding-fin-e5",
+  "usage": {
+    "prompt_tokens": 42,
+    "total_tokens": 42
+  }
+}</code></pre>
+    </div>
+
+    <!-- Model Specs -->
+    <h2>Technical Specifications</h2>
+    <table>
+        <tr>
+            <th>Feature</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td>Dimensions</td>
+            <td>1536</td>
+        </tr>
+        <tr>
+            <td>Max Sequence Length</td>
+            <td>8192 tokens</td>
+        </tr>
+        <tr>
+            <td>Financial Token Support</td>
+            <td>Tickers, SEC forms, currencies</td>
+        </tr>
+    </table>
+
+    <!-- Best Practices -->
+    <h2>Best Practices</h2>
+    <pre><code># Production recommendation
+client = OpenAI(
+    base_url="https://api.finembed.com/v1",
+    api_key=os.getenv("FIN_API_KEY"),  # Environment variable
+    timeout=30.0  # Financial data timeout
+)</code></pre>
+</body>
+</html>
