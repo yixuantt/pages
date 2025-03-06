@@ -4,26 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fin-E5 Embedding API Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">
     <style>
         :root {
             --primary: #10a37f;
             --dark: #202123;
             --light-bg: #f7f7f8;
+            --text-gray: #6e6e80;
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
             color: var(--dark);
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 2rem;
         }
 
-        h1 {
+        h1, h2, h3 {
             color: var(--dark);
             border-bottom: 2px solid var(--primary);
             padding-bottom: 0.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            margin-top: 2rem;
+        }
+
+        .code-container {
+            position: relative;
+            margin: 1.5rem 0;
         }
 
         pre {
@@ -32,7 +48,7 @@
             padding: 1.5rem;
             border-radius: 8px;
             overflow-x: auto;
-            margin: 1.5rem 0;
+            margin: 0;
         }
 
         code {
@@ -41,13 +57,94 @@
 
         .code-header {
             color: var(--primary);
-            margin-bottom: -0.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
         }
 
-        .response-sample {
+        .copy-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 0.5rem;
+            display: block;
+            width: fit-content;
+        }
+
+        .copy-button:hover {
+            background: #0d8c6b;
+        }
+
+        .toc {
             background: var(--light-bg);
             padding: 1rem;
-            border-left: 3px solid var(--primary);
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: var(--light-bg);
+        }
+
+        footer {
+            background: #f9fafb;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            pre {
+                padding: 1rem;
+            }
+            .copy-button {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -59,62 +156,66 @@
         SPDX-License-Identifier: Apache-2.0
     </div>
 
+    <!-- Table of Contents -->
+    <div class="toc">
+        <h2>Table of Contents</h2>
+        <ul>
+            <li><a href="#api-request-curl">API Request (cURL)</a></li>
+            <li><a href="#python-client">Python Client</a></li>
+            <li><a href="#technical-specifications">Technical Specifications</a></li>
+        </ul>
+    </div>
+
     <!-- cURL Example -->
-    <h2>API Request (cURL)</h2>
+    <h2 id="api-request-curl">API Request (cURL)</h2>
     <div class="code-header">Example:</div>
-    <pre><code>curl https://api.finembed.com/v1/embeddings \
+    <div class="code-container">
+        <pre><code class="language-bash">curl your-api-base/v1/embeddings \
   -H "Authorization: Bearer $FIN_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "text-embedding-fin-e5",
+    "model": "Fin-e5",
     "input": "FED announces 0.25% rate cut amid inflation easing",
     "encoding_format": "float"
   }'</code></pre>
-
-    <!-- Python Example -->
-    <h2>Python Client</h2>
-    <div class="code-header">Using OpenAI SDK:</div>
-    <pre><code>from openai import OpenAI
-
-# Configure for Fin-E5 endpoint
-client = OpenAI(
-    base_url="https://api.finembed.com/v1",
-    api_key="your_fin_api_key"
-)
-
-# Generate embeddings
-response = client.embeddings.create(
-    model="Fin-e5",
-    input=["AAPL Q4 revenue \$119.6B", "TSLA announces new battery plant"],
-    encoding_format="float"
-)
-
-# Process response
-for idx, embed in enumerate(response.data):
-    print(f"Embedding {idx+1}: {len(embed.embedding)} dimensions")</code></pre>
-
-    <!-- Response Sample -->
-    <h2>API Response</h2>
-    <div class="response-sample">
-        <pre><code>{
-  "object": "list",
-  "data": [
-    {
-      "object": "embedding",
-      "index": 0,
-      "embedding": [0.021, -0.047, ..., 0.003], // 1536 dimensions
-    }
-  ],
-  "model": "text-embedding-fin-e5",
-  "usage": {
-    "prompt_tokens": 42,
-    "total_tokens": 42
-  }
-}</code></pre>
+        <button class="copy-button" onclick="copyCode(this)">Copy</button>
     </div>
 
-    <!-- Model Specs -->
-    <h2>Technical Specifications</h2>
+    <!-- Python Example -->
+    <h2 id="python-client">Python Client</h2>
+    <div class="code-header">Using OpenAI SDK:</div>
+    <div class="code-container">
+        <pre><code class="language-python">from openai import OpenAI
+
+def get_detailed_instruct(task_description: str, query: str) -> str:
+    return f'Instruct: {task_description}\nQuery: {query}'
+
+def get_response():
+    client = OpenAI(api_key="your-api-key",
+                    base_url="your-api-base/v1")
+    # Encode Query
+    completion = client.embeddings.create(
+        model="Fin-e5",
+        input=get_detailed_instruct("Given a financial question, retrieve user replies that best answer the question.",'text'),
+        encoding_format="float"
+    )
+    print(completion.model_dump_json())
+
+    # Encode Document
+    completion = client.embeddings.create(
+        model="Fin-e5",
+        input='text',
+        encoding_format="float"
+    )
+    print(completion.model_dump_json())
+
+if __name__ == '__main__':
+    get_response()</code></pre>
+        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <!-- Technical Specifications -->
+    <h2 id="technical-specifications">Technical Specifications</h2>
     <table>
         <tr>
             <th>Feature</th>
@@ -122,25 +223,33 @@ for idx, embed in enumerate(response.data):
         </tr>
         <tr>
             <td>Dimensions</td>
-            <td>1536</td>
+            <td>4096</td>
         </tr>
         <tr>
-            <td>Max Sequence Length</td>
-            <td>8192 tokens</td>
-        </tr>
-        <tr>
-            <td>Financial Token Support</td>
-            <td>Tickers, SEC forms, currencies</td>
+            <td>Max Input Length</td>
+            <td>4096</td>
         </tr>
     </table>
 
-    <!-- Best Practices -->
-    <h2>Best Practices</h2>
-    <pre><code># Production recommendation
-client = OpenAI(
-    base_url="https://api.finembed.com/v1",
-    api_key=os.getenv("FIN_API_KEY"),  # Environment variable
-    timeout=30.0  # Financial data timeout
-)</code></pre>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© 2025 FinEmbed. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-python.min.js"></script>
+    <script>
+        function copyCode(button) {
+            const code = button.previousElementSibling.querySelector('code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                button.textContent = 'Copied!';
+                setTimeout(() => button.textContent = 'Copy', 2000);
+            });
+        }
+    </script>
 </body>
 </html>
